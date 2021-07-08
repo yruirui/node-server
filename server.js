@@ -24,7 +24,11 @@ var server = http.createServer(function(request, response){
   if(path === '/index.html'){
     response.statusCode = 200
     response.setHeader('Content-Type', 'text/html;charset=utf-8')
-    const string1=fs.readFileSync('public/index.html')
+    let string1=fs.readFileSync('public/index.html').toString()
+    const page1=fs.readFileSync('db/page1.json').toString()
+    const array=JSON.parse(page1)
+    const re =array.map(item=>`<li>${item.id}</li>`).join('')
+    string1=string1.replace('{{page}}',`<ul id="aul">${re}</ul>`)
     response.write(string1)
     response.end()
   } else if(path === '/main.js'){
@@ -57,6 +61,28 @@ var server = http.createServer(function(request, response){
     response.setHeader('Content-Type', 'text/xml;charset=utf-8')
     const string5=fs.readFileSync('public/4.xml')
     response.write(string5)
+    response.end()
+  }
+  else if(path==='/4.json'){
+    response.statusCode = 200
+    response.setHeader('Content-Type', 'text/json;charset=utf-8')
+    const string6=fs.readFileSync('public/4.json')
+
+    response.write(string6)
+    response.end()
+  }
+  else if(path==='/page2'){
+    response.statusCode = 200
+    response.setHeader('Content-Type', 'text/JSON;charset=utf-8')
+    const string4=fs.readFileSync('db/page2.json')
+    response.write(string4)
+    response.end()
+  }
+  else if(path==='/page3'){
+    response.statusCode = 200
+    response.setHeader('Content-Type', 'text/JSON;charset=utf-8')
+    const string4=fs.readFileSync('db/page3.json')
+    response.write(string4)
     response.end()
   }
   else {
